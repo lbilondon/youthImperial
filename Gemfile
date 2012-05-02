@@ -20,6 +20,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'requirejs-rails'
+
 gem 'faraday', '~> 0.7.6'
 
 gem 'jquery-rails'

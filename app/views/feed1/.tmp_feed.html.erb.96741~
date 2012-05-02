@@ -1,0 +1,11 @@
+<ul>
+<% @media['user']['feed'].each do |mediaItem|%>
+	<li><img src="data:image/jpg;base64, <%= mediaItem %>" /></li>
+<% end %>
+</ul>
+
+<ul>
+<% @media['yi']['feed'].each do |mediaItem| %>
+	<li><img src="data:image/jpg;base64,<%= mediaItem %>" /></li>
+<% end %>
+</ul>
