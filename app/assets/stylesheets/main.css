@@ -5,6 +5,10 @@
 	width:800px;
 }
 
+.js #feedContainer {
+	display:none;
+}
+
 .mainHeader {
 	position:absolute;
 	margin-top:25%;
