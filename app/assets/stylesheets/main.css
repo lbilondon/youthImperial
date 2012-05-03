@@ -2,11 +2,22 @@
 #feedContainer {
 	position:relative;
 	margin:10px auto;
-	width:800px;
+	text-align:center;
 }
 
 .js #feedContainer {
 	display:none;
+}
+
+#feedContainer p {
+	width:100%;
+	text-align:center;
+}
+
+#feedCanvas {
+	position:relative;
+	margin:0 auto;
+	width:615px;
 }
 
 .mainHeader {

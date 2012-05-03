@@ -75,5 +75,4 @@ class Feed1Controller < ApplicationController
   def fetchJSONFromFile(filePath)
     return JSON.parse(File.read(filePath))
   end
-  
 end
