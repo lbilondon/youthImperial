@@ -85,7 +85,7 @@ define([
 				this.canvas.height = height;
 				this.canvas.width = width;
 				this.ctx.clearRect(0, 0, width, height);
-
+				
 				var img1 = new Image();
 				var that = this;
 				img1.onload = function () {
@@ -110,13 +110,14 @@ define([
 					}
 				}
 				img2.src = image2Src;
+				
 			},
-			manipulateImage: function(image1Data, image2Data) {
+			manipulateImage: function(image1Data, image2Data, image3Data) {
 
 				var pixels = 4 * this.canvas.width * this.canvas.height;
 				var tmp = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 				while (pixels--) {
-					tmp.data[pixels] = (image1Data.data[pixels] * 0.3) + (image2Data.data[pixels] * 0.7);
+					tmp.data[pixels] = (image1Data.data[pixels] * 0.4) + (image2Data.data[pixels] * 0.6);
 				}
 
 				this.ctx.putImageData(tmp, 0, 0);
@@ -159,44 +160,49 @@ define([
 						finalImage.data[x-3] = image2Data.data[x-3];
 					}
 					
-					
-
 					column--;
 				}
 
 				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				this.ctx.putImageData(finalImage, 0, 0);
+				
+				var overlay = new Image();
+				var that = this;
+				overlay.onload = function () {
+					that.ctx.drawImage(overlay, 60, 125, 500, 118);	
+					
+					var finalImageUrl = that.canvas.toDataURL("image/png");
+					var $imageDownload = that.$el.find('#imageDownload');
+					if ($imageDownload.length > 0) {
+						$imageDownload.attr({'href': finalImageUrl });
+					} else {
+						that.$el.append('<p><a href="' + finalImageUrl + '" id="imageDownload">save image</a></p>');
 
-				var finalImageUrl = this.canvas.toDataURL("image/png");
-				var $imageDownload = this.$el.find('#imageDownload');
-				if ($imageDownload.length > 0) {
-					$imageDownload.attr({'href': finalImageUrl });
-				} else {
-					this.$el.append('<p><a href="' + finalImageUrl + '" id="imageDownload">save image</a></p>');
-					
-					
-					var that = this;
-					this.$el.find('#imageDownload').bind('click', function(e) {
-						e.preventDefault();
-						
-						var data = {
-							user: {
-								username: that.username,
-								imagedata: that.canvas.toDataURL("image/png")
+						that.$el.find('#imageDownload').bind('click', function(e) {
+							e.preventDefault();
+							
+							var data = {
+								user: {
+									username: that.username,
+									imagedata: that.canvas.toDataURL("image/png")
+								}
 							}
-						}
-						
-						$.ajax({
-							type: 'POST',
-							url: '/save-art',
-							data: data,
-							success: function() {
-								alert('SAVED');
-							},
-							dataType: 'json'
-						})
-					});
+							
+							$.ajax({
+								type: 'POST',
+								url: '/save-art',
+								data: data,
+								success: function() {
+									alert('SAVED');
+								},
+								dataType: 'json'
+							})
+						});
+					}
 				}
+				overlay.src = '/assets/youth-imperial-logo.png';
+
+				
 
 			}
 		});
