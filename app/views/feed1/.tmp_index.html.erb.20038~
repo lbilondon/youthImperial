@@ -1,2 +1,0 @@
-<%= @url %>
-<a href="/oauth/connect">Connect with Instagram</a>
