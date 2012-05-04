@@ -11,7 +11,10 @@ define([
 			template : _.template(GalleryTemplate),
 			
 			initialize : function() {
-				_.bindAll(this, 'bindEvents', 'render', 'updateIndex');
+				_.bindAll(this, 'bindEvents', 'render', 'updateIndex', 'placeCurrentItemForward', 'placeCurrentItemBackward');
+				this.$el = $(this.el);
+				this.feed = this.options.feed;
+				this.feedName = this.options.feedName;
 				
 				this.indexes = this.model.getIndexes();
 				
@@ -26,12 +29,108 @@ define([
 			},
 			render : function() {
 				this.$template = $(this.template());
+				this.$gallery = this.$template.find('.gallery');
+				
 				this.$el.append(this.$template);
+			
+				this.$template.addClass('gallery_' + this.feedName);
+				
+				var str = '';
+				var thisClass = '';
+				
+				for (var i = 0; i < this.feed.length; i++) {
+					thisClass = '';
+					if (this.indexes[this.feedName + 'Feed'] === i) {
+						str += '<li class="current">';
+					} else {
+						str += '<li>';
+					}
+					str += '<img src="data:image/jpg;base64,' + this.feed[i] + '" />';
+				}
+				
+				this.$gallery.append(str);
+				this.placeCurrentItemForward(this.$template.find('.current'));
 				
 				return this;
 			},
 			updateIndex: function (indexes) {
+				var oldIndexes = this.indexes;
+				var isForward = true;
 				this.indexes = indexes;
+				
+				//TODO: find out why oldIndexes is equal to this.indexes, because if that doesn't work then i don't know what will
+				console.log(oldIndexes[this.feedName + 'Feed'], indexes[this.feedName + 'Feed']);
+				if (parseInt(oldIndexes[this.feedName + 'Feed']) > parseInt(this.indexes[this.feedName + 'Feed'])) {
+					isForward = false;
+				}
+				console.log(isForward);
+				
+				this.$gallery.find('li').removeClass('current');
+				var $currentItem = this.$gallery.find('li:first-child');
+				if (isForward) {
+					this.placeCurrentItemForward($currentItem);
+				} else {
+					$currentItem = this.$gallery.find('li:last-child'); 
+					this.placeCurrentItemBackward($currentItem);
+				}
+			},
+			placeCurrentItemForward: function ($currentItem) {
+				var that = this;
+
+				if (this.feedName === 'yi') {
+					this.$gallery.animate({
+						'margin-left': '-210px'
+					}, {
+						duration: 1000,
+						complete: function () {
+							$currentItem.detach();
+							that.$gallery.css({ 'margin-left': '0' });
+							that.$gallery.append($currentItem);
+							$currentItem.addClass('current');
+						}
+					});
+				} else {
+					this.$gallery.animate({
+						'margin-right': '-210px'
+					}, {
+						duration: 1000,
+						complete: function () {
+
+							$currentItem.detach();
+							that.$gallery.css({ 'margin-right': '0' });
+
+							that.$gallery.append($currentItem);
+							$currentItem.addClass('current');
+						}
+					});
+				}
+			},
+			placeCurrentItemBackward: function ($currentItem) {
+				var that = this;
+				
+				if (this.feedName === 'yi') {
+					this.$gallery.css({ 'margin-left': '-210px' });
+					$currentItem.detach();
+					this.$gallery.prepend($currentItem);
+					$currentItem.addClass('current');
+					
+					this.$gallery.animate({
+						'margin-left': '0'
+					}, {
+						duration: 1000
+					});
+				} else {
+					this.$gallery.css({ 'margin-left': '-210px'});
+					$currentItem.detach();
+					this.$gallery.prepend($currentItem);
+					$currentItem.addClass('current');
+					
+					this.$gallery.animate({
+						'margin-right': '0'
+					}, {
+						duration: 1000
+					});
+				}
 			}
 		});
 	}

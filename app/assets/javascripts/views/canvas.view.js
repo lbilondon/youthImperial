@@ -2,72 +2,76 @@ define([
 		'jquery',
 		'underscore',
 		'backbone',
-		'text!templates/canvas.tmpl.html',
-		'assets/models/user.model.js'
+		'text!templates/canvas.tmpl.html'
 	],
-	function($, _, Backbone, CanvasTemplate, UserModel) {
+	function($, _, Backbone, CanvasTemplate) {
 		"use strict";
 
 		return Backbone.View.extend({
 			template : _.template(CanvasTemplate),
 			initialize : function() {
-				_.bindAll(this, 'render', 'createImageMashup', 'getImageData', 'manipulateImage');
+				_.bindAll(this, 'render', 'updateIndex', 'appendCanvasControls',  'createImageMashup', 'getImageData', 'manipulateImage', 'postData');
+				
+				this.indexes = this.model.getIndexes();
+				
 				this.render();
+				this.bindEvents();
 			},
-			render : function() {
-				this.$el.append(this.template());
+			bindEvents: function() {
+				this.model.events.bind('indexUpdated', this.updateIndex);
+			},
+			unbindEvents: function() {
+				this.model.events.off('indexUpdated', this.updateIndex);
+			},
+ 			render : function() {
+ 				this.$template = $(this.template());
+				this.$el.append(this.$template);
 				
 				this.canvas = this.$el.find('#feedCanvas')[0];
 				if (this.canvas !== undefined) {
 					this.ctx = this.canvas.getContext('2d');
 
-					this.feed1ImgIndex = 0;
-					this.feed2ImgIndex = 0;
-					
-					var model = new UserModel();
-					var that = this;
-					model.fetch({
-						success: function (rModel) {
-							that.createImageMashup(rModel);
-							
-							that.$el.append('<p><a href="#" id="prevImage">< Prev</a> | <a href="#" id="nextImage">Next ></a></p>');
-							that.$el.find('#nextImage').bind('click', function(e) {
-								e.preventDefault();
-								
-								that.feed1ImgIndex++;
-								that.feed2ImgIndex++;
-								
-								that.createImageMashup(rModel);
-							});
-							
-							that.$el.find('#prevImage').bind('click', function(e) {
-								e.preventDefault();
-								
-								that.feed1ImgIndex--;
-								that.feed2ImgIndex--;
-								
-								that.createImageMashup(rModel);
-							});
-						}
-					});
+					this.createImageMashup(this.model);
+					this.appendCanvasControls(this.model);
 				}
 				return this;
 			},
+			updateIndex: function (indexes) {
+				this.indexes = indexes;
+				
+				var that = this;
+				this.$template.animate({
+					'opacity' : 0
+				}, {
+					duration: 1000,
+					complete: function () {
+						that.createImageMashup(that.model);
+						
+						$(this).animate({
+							'opacity': 1
+						}, {
+							duration: 1000
+						});
+					}
+				});
+			},
+			appendCanvasControls: function(data) {
+				this.$el.append('<p><a href="#" id="prevImage">< Prev</a> | <a href="#" id="nextImage">Next ></a></p>');
+				
+				var that = this;
+				this.$el.find('#nextImage').bind('click', function(e) {
+					e.preventDefault();
+					that.model.events.trigger('updateIndex', false);
+				});
+				
+				this.$el.find('#prevImage').bind('click', function(e) {
+					e.preventDefault();
+					that.model.events.trigger('updateIndex', true);
+				});
+			},
 			createImageMashup: function(data) {
-				if (this.feed1ImgIndex >= data.get('user').feed.length) {
-					this.feed1ImgIndex = 0;
-				} else if (this.feed1ImgIndex <= 0) {
-					this.feed1ImgIndex = data.get('user').feed.length - 1;
-				}
-				
-				if (this.feed2ImgIndex >= data.get('yi').feed.length) {
-					this.feed2ImgIndex = 0;
-				} else if (this.feed2ImgIndex <= 0) {
-					this.feed2ImgIndex = data.get('yi').feed.length - 1;
-				}
-				
-				var img1_src = 'data:image/jpg;base64,' + data.get('user').feed[this.feed1ImgIndex];
-				var img2_src = 'data:image/jpg;base64,' + data.get('yi').feed[this.feed2ImgIndex];
+				var img1_src = 'data:image/jpg;base64,' + data.getFeed1()[this.indexes['userFeed']];
+				var img2_src = 'data:image/jpg;base64,' + data.getFeed2()[this.indexes['yiFeed']];
 				var user = data.get('user');
 				
 				this.getImageData(img1_src, img2_src, this.manipulateImage, user);
@@ -113,7 +117,6 @@ define([
 				
 			},
 			manipulateImage: function(image1Data, image2Data, image3Data) {
-
 				var pixels = 4 * this.canvas.width * this.canvas.height;
 				var tmp = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 				while (pixels--) {
@@ -180,30 +183,29 @@ define([
 
 						that.$el.find('#imageDownload').bind('click', function(e) {
 							e.preventDefault();
-							
-							var data = {
-								user: {
-									username: that.username,
-									imagedata: that.canvas.toDataURL("image/png")
-								}
-							}
-							
-							$.ajax({
-								type: 'POST',
-								url: '/save-art',
-								data: data,
-								success: function() {
-									alert('SAVED');
-								},
-								dataType: 'json'
-							})
+							that.postData(that.username, that.canvas.toDataURL("image/png"));
 						});
 					}
 				}
 				overlay.src = '/assets/youth-imperial-logo.png';
+			},
+			postData: function (username, imageData) {
+				var data = {
+						user: {
+							username: username,
+							imagedata: imageData
+						}
+				}
 
-				
-
+				$.ajax({
+					type: 'POST',
+					url: '/save-art',
+					data: data,
+					success: function() {
+						alert('SAVED');
+					},
+					dataType: 'json'
+				})
 			}
 		});
 	}
