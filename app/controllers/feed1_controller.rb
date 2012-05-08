@@ -5,7 +5,7 @@ class Feed1Controller < ApplicationController
   
   USESTUBDATA = false
   
-  CALLBACK_URL = "http://localhost:3000/oauth/callback"
+  #CALLBACK_URL = "http://localhost:3000/oauth/callback"
   YOUTHIMPERIALS_UID = "27295624"
   
   Instagram.configure do |config|
@@ -23,15 +23,19 @@ class Feed1Controller < ApplicationController
   end
   
   def oauthConnect
+    @CALLBACK_URL = "http://" + request.host + ":" + request.port.to_s + "/oauth/callback"
+      
     if USESTUBDATA
       redirect_to "/feed"
     else 
-      redirect_to Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
+      redirect_to Instagram.authorize_url(:redirect_uri => @CALLBACK_URL)
     end
   end
 
   def oauthCallback
-    response = Instagram.get_access_token(params[:code], :redirect_uri => CALLBACK_URL)
+    @CALLBACK_URL = "http://" + request.host + ":" + request.port.to_s + "/oauth/callback"
+    
+    response = Instagram.get_access_token(params[:code], :redirect_uri => @CALLBACK_URL)
     session[:access_token] = response.access_token
     redirect_to "/feed"
   end
