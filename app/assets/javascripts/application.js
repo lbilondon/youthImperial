@@ -3,7 +3,7 @@ define([
         'jquery',
         'underscore',
         'backbone',
-		'assets/models/user.model.js',
+		'models/user.model.js',
 		'views/canvas.view',
 		'views/gallery.view'
 	],
