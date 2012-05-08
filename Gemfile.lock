@@ -120,6 +120,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  execjs
   faraday (~> 0.7.6)
   instagram
   jquery-rails
