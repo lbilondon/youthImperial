@@ -3,7 +3,7 @@ class Feed1Controller < ApplicationController
   require "instagram"
   require "open-uri"
   
-  USESTUBDATA = true
+  USESTUBDATA = false
   
   CALLBACK_URL = "http://localhost:3000/oauth/callback"
   YOUTHIMPERIALS_UID = "27295624"

@@ -36,7 +36,9 @@ define([
 							model: rModel,
 							feed: rModel.getFeed2(),
 							feedName: 'yi'
-						})
+						});
+
+						$('#loading').remove();
 					}
 				});
 				
