@@ -5,12 +5,12 @@ class Feed1Controller < ApplicationController
   
   USESTUBDATA = false
   
-  #CALLBACK_URL = "http://localhost:3000/oauth/callback"
+  CALLBACK_URL = (Rails.env === 'production') ? "http://youthimperial.herokuapp.com/oauth/callback": "http://localhost:3000/oauth/callback";
   YOUTHIMPERIALS_UID = "27295624"
   
   Instagram.configure do |config|
-    config.client_id = "84e6db6bc9bc47f9a14bd5f25dc738e6"
-    config.client_secret = "25deb745419f435b9d383175ed9bd6ab"
+    config.client_id = (Rails.env === 'production') ? 'd51f55e4af5444da8f3d02e01d6ba766' : "84e6db6bc9bc47f9a14bd5f25dc738e6"
+    config.client_secret = (Rails.env === 'production') ? 'f90ab46735144afbb57e92086599bae8' : "25deb745419f435b9d383175ed9bd6ab"
   end
   
   # GET /feed1
@@ -23,19 +23,15 @@ class Feed1Controller < ApplicationController
   end
   
   def oauthConnect
-    @CALLBACK_URL = "http://" + request.host + ":" + request.port.to_s + "/oauth/callback"
-      
     if USESTUBDATA
       redirect_to "/feed"
     else 
-      redirect_to Instagram.authorize_url(:redirect_uri => @CALLBACK_URL)
+      redirect_to Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
     end
   end
 
   def oauthCallback
-    @CALLBACK_URL = "http://" + request.host + ":" + request.port.to_s + "/oauth/callback"
-    
-    response = Instagram.get_access_token(params[:code], :redirect_uri => @CALLBACK_URL)
+    response = Instagram.get_access_token(params[:code], :redirect_uri => CALLBACK_URL)
     session[:access_token] = response.access_token
     redirect_to "/feed"
   end
