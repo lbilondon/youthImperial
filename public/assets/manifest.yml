@@ -7,4 +7,5 @@ templates/gallery.tmpl.html: templates/gallery.tmpl-924ffb2a343b1e10a0bea2210010
 templates/main.html: templates/main-e70be06cc30f9361d6ab2137e54e1066.html
 templates/templateStub.html: templates/templateStub-35116cb16000e5852f9bbb3c4c0d267a.html
 application.css: application-946c8931d7322e4373d1709102b21bf4.css
+modernizr.js: modernizr-bc802cb4d0a1561521df39a31cf1f237.js
 require.js: require-8669dd0bbd8505de1fee3011ec8beff7.js
