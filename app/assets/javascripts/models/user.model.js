@@ -36,18 +36,16 @@ define([
 				
 				if (this.indexes['userFeed'] >= this.get('user').feed.length) {
 					this.indexes['userFeed'] = 0;
-				} else if (this.indexes['userFeed'] <= 0) {
+				} else if (this.indexes['userFeed'] < 0) {
 					this.indexes['userFeed'] = this.get('user').feed.length - 1;
 				}
 				
 				if (this.indexes['yiFeed'] >= this.get('yi').feed.length) {
 					this.indexes['yiFeed'] = 0;
-				} else if (this.indexes['yiFeed'] <= 0) {
+				} else if (this.indexes['yiFeed'] < 0) {
 					this.indexes['yiFeed'] = this.get('yi').feed.length - 1;
 				}
-				
-				this.events.trigger('indexUpdated', this.indexes);
-				return this.indexes;
+				this.events.trigger('indexUpdated', { indexes: this.indexes, isDown: down });
 			},
 			getIndexes: function() {
 				return this.indexes;

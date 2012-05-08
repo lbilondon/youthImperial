@@ -53,21 +53,10 @@ define([
 				
 				return this;
 			},
-			updateIndex: function (indexes) {
-				var oldIndexes = this.indexes;
-				var isForward = true;
-				this.indexes = indexes;
-				
-				//TODO: find out why oldIndexes is equal to this.indexes, because if that doesn't work then i don't know what will
-				console.log(oldIndexes[this.feedName + 'Feed'], indexes[this.feedName + 'Feed']);
-				if (parseInt(oldIndexes[this.feedName + 'Feed']) > parseInt(this.indexes[this.feedName + 'Feed'])) {
-					isForward = false;
-				}
-				console.log(isForward);
-				
+			updateIndex: function (rtnObj) {
 				this.$gallery.find('li').removeClass('current');
 				var $currentItem = this.$gallery.find('li:first-child');
-				if (isForward) {
+				if (!rtnObj.isDown) {
 					this.placeCurrentItemForward($currentItem);
 				} else {
 					$currentItem = this.$gallery.find('li:last-child'); 
@@ -95,7 +84,6 @@ define([
 					}, {
 						duration: 1000,
 						complete: function () {
-
 							$currentItem.detach();
 							that.$gallery.css({ 'margin-right': '0' });
 
@@ -112,7 +100,7 @@ define([
 					this.$gallery.css({ 'margin-left': '-210px' });
 					$currentItem.detach();
 					this.$gallery.prepend($currentItem);
-					$currentItem.addClass('current');
+					this.$gallery.find('li:last-child').addClass('current');
 					
 					this.$gallery.animate({
 						'margin-left': '0'
@@ -120,10 +108,10 @@ define([
 						duration: 1000
 					});
 				} else {
-					this.$gallery.css({ 'margin-left': '-210px'});
+					this.$gallery.css({ 'margin-right': '-210px'});
 					$currentItem.detach();
 					this.$gallery.prepend($currentItem);
-					$currentItem.addClass('current');
+					this.$gallery.find('li:last-child').addClass('current');
 					
 					this.$gallery.animate({
 						'margin-right': '0'

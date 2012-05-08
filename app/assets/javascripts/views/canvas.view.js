@@ -36,8 +36,7 @@ define([
 				}
 				return this;
 			},
-			updateIndex: function (indexes) {
-				this.indexes = indexes;
+			updateIndex: function (rtnObj) {
 				
 				var that = this;
 				this.$template.animate({
