@@ -2,7 +2,7 @@ define([
 		'backbone',
 		'underscore'
 	],
-	function(Backbone) {
+	function(Backbone, _) {
 		"use strict";
 		
 		return Backbone.Model.extend({
@@ -15,14 +15,14 @@ define([
 				this.indexes = {
 						'userFeed': 0,
 						'yiFeed': 0
-				}
+					};
 				
 				this.events.bind('updateIndex', this.updateIndex);
 			},
-			getFeed1: function() {
+			getFeed1: function () {
 				return this.get('user').feed;
 			},
-			getFeed2: function() {
+			getFeed2: function () {
 				return this.get('yi').feed;
 			},
 			updateIndex: function (down) {
@@ -47,7 +47,7 @@ define([
 				}
 				this.events.trigger('indexUpdated', { indexes: this.indexes, isDown: down });
 			},
-			getIndexes: function() {
+			getIndexes: function () {
 				return this.indexes;
 			}
 		});
