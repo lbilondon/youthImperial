@@ -1,0 +1,11 @@
+---
+rails.png: rails-be8732dac73d845ac5b142c8fb5f9fb0.png
+youth-imperial-logo.png: youth-imperial-logo-49c071c9b435ce9ae9a3298d6a64e52d.png
+application.js: application-51e3bcac338ce48b58b79e34141ce00a.js
+templates/canvas.tmpl.html: templates/canvas.tmpl-060abc39ae3568751a1616b3a4396c56.html
+templates/gallery.tmpl.html: templates/gallery.tmpl-924ffb2a343b1e10a0bea22100102828.html
+templates/main.html: templates/main-e70be06cc30f9361d6ab2137e54e1066.html
+templates/templateStub.html: templates/templateStub-35116cb16000e5852f9bbb3c4c0d267a.html
+application.css: application-01632db03baffdf125c1a17eadc4af13.css
+modernizr.js: modernizr-f9157c8cb771c2e39dc9de56b3b3af6e.js
+require.js: require-02e1526e2c073f2d8f3575b351fbcc18.js
