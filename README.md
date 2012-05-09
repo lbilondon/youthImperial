@@ -24,7 +24,7 @@ Once these have all been setup you can from the root folder run the server using
 You will now be able to view the site at http://0.0.0.0:3000
 
 
-##Deployment Process
+##Deployment
 
 For deployment we are using heroku. Assuming you are added as a collaborator on the heroku project you should be able to do the following to get setup:
 
@@ -34,7 +34,18 @@ Deployment setup:
 	> heroku login
 	> git remote add heroku git@heroku.com:youthimperial.git
 	
-Deployment process, make sure you precompile your assets before pushing to heroku:
+One important thing is that the precompile script uses node.js to compile the javascript using requirejs, to get this setup you need to install node.js:
+
+Go to http://nodejs.org/ and download the package installer
+
+Then to get requirejs run:
+	
+	> sudo npm install -g requirejs	
+	
+You should be all setup and ready to deploy.
+	
+Deployment process
+- make sure you precompile your assets before pushing to heroku:
 	> RAILS_ENV=production bundle exec rake assets:precompile
 	
 	> git add .
