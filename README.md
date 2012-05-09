@@ -24,7 +24,7 @@ Once these have all been setup you can from the root folder run the server using
 You will now be able to view the site at http://0.0.0.0:3000
 
 
-##Deployment
+##Deployment Process
 
 For deployment we are using heroku. Assuming you are added as a collaborator on the heroku project you should be able to do the following to get setup:
 
