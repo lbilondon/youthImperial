@@ -29,6 +29,7 @@ You will now be able to view the site at http://0.0.0.0:3000
 For deployment we are using heroku. Assuming you are added as a collaborator on the heroku project you should be able to do the following to get setup:
 
 Deployment setup:
+
 	> gem install heroku
 	> heroku login
 	> git remote add heroku git@heroku.com:youthimperial.git
