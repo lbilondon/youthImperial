@@ -46,6 +46,7 @@ You should be all setup and ready to deploy.
 	
 Deployment process
 - make sure you precompile your assets before pushing to heroku:
+
 	> RAILS_ENV=production bundle exec rake assets:precompile
 	
 	> git add .
