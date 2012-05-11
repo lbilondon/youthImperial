@@ -16,6 +16,8 @@ YouthImperial::Application.routes.draw do
   match '/oauth/connect' => 'feed1#oauthConnect'
   match '/oauth/callback' => 'feed1#oauthCallback'
   match '/feed' => 'feed1#feed'
+  match '/save-art' => 'feed1#saveArt'
+  match '/covers' => 'feed1#covers'
 
   # Sample resource route with options:
   #   resources :products do

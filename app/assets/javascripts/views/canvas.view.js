@@ -190,20 +190,21 @@ define([
 			},
 			postData: function (username, imageData) {
 				var data = {
-						user: {
+						cover: {
 							username: username,
 							imagedata: imageData
 						}
 				}
-
 				$.ajax({
 					type: 'POST',
 					url: '/save-art',
 					data: data,
-					success: function() {
-						alert('SAVED');
-					},
-					dataType: 'json'
+					dataType: 'json',
+					statusCode: {
+						200: function() {
+							alert("saved...");
+						}
+					}
 				})
 			}
 		});

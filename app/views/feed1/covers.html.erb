@@ -1,0 +1,7 @@
+
+<ul id="covers">
+<% @covers.each do |cover| %>
+	<li><%= image_tag cover.image.url(:thumb) %></li>
+<% end %>
+</ul>
+

@@ -636,6 +636,16 @@ a {
 	width:200px;
 }
 
+#covers li {
+	display: block;
+	float: left;
+	list-style-type: none;
+	margin: 10px;
+}
+
+
+
+
 
 
 

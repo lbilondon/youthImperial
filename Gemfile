@@ -27,14 +27,13 @@ group :assets do
 end
 
 gem 'requirejs-rails', '~> 0.7.3'
-
 gem 'faraday', '~> 0.7.6'
-
 gem 'jquery-rails'
-
 gem 'multi_json', '~> 1.0.3'
-
 gem 'instagram'
+gem 'paperclip'
+gem 'aws-sdk'
+gem "rmagick", "2.12.0", :require => 'Rmagick'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

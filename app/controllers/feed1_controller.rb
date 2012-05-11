@@ -75,4 +75,17 @@ class Feed1Controller < ApplicationController
   def fetchJSONFromFile(filePath)
     return JSON.parse(File.read(filePath))
   end
+
+  def saveArt
+    @cover = Cover.new(params["cover"])
+    @cover.save
+    render :nothing => true
+  end
+
+  def covers
+    @covers = Cover.find(:all, :order => "created_at desc", :limit => 25)
+    respond_to do |format|
+      format.html # covers.html.erb
+    end
+  end
 end
