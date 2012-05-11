@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120509152125) do
+ActiveRecord::Schema.define(:version => 20120511162120) do
 
   create_table "covers", :force => true do |t|
     t.string   "username"
