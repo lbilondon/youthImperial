@@ -33,7 +33,7 @@ gem 'multi_json', '~> 1.0.3'
 gem 'instagram'
 gem 'paperclip'
 gem 'aws-sdk'
-gem "rmagick", "2.12.0", :require => 'Rmagick'
+gem "rmagick", "2.12.0", :require => 'RMagick'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
